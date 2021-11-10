@@ -17,7 +17,7 @@ import com.vaadin.flow.server.StreamResource;
 
 @Route(value = "", layout = VCameraDemo.class)
 @Tag("vcamera-demo-element")
-@HtmlImport("bower_components/vcamera-demo-element/vcamera-demo-element.html")
+@HtmlImport("bower_components/vcamera-demo-element/vcamera-demo-element.js")
 public class VCameraDemoView extends AbstractCameraView {
 
     @Id("snap")

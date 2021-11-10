@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.polymertemplate.Id;
@@ -17,7 +17,7 @@ import com.vaadin.flow.server.StreamResource;
 
 @Route(value = "", layout = VCameraDemo.class)
 @Tag("vcamera-demo-element")
-@HtmlImport("src/vcamera-demo-element/vcamera-demo-element.html")
+@JsModule("./vcamera-demo-element.js")
 public class VCameraDemoView extends AbstractCameraView {
 
     @Id("snap")

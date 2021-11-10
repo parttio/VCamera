@@ -14,11 +14,15 @@
   ~ the License.
   -->
 
-<link rel="import" href="../bower_components/vaadin-lumo-styles/color.html">
-<link rel="import" href="../bower_components/vaadin-lumo-styles/typography.html">
+<!--<link rel="import" href="../bower_components/vaadin-lumo-styles/color.html">-->
+<!--<link rel="import" href="../bower_components/vaadin-lumo-styles/typography.html">-->
+import '@polymer/polymer/vaadin-lumo-styles/color.js';
+import '@polymer/polymer/vaadin-lumo-styles/typography.js';
 
-<dom-module id="view-styles">
-    <template>
+const documentContainer = document.createElement('template');
+
+<!--<dom-module id="view-styles">-->
+<!--    <template>-->
         <style>
             /* Stretch to fill the entire browser viewport while keeping the content constrained to
             parent element max-width */
@@ -43,8 +47,8 @@
                 flex: auto;
             }
         </style>
-    </template>
-</dom-module>
+<!--    </template>-->
+<!--</dom-module>-->
 
 <custom-style>
     <style include="view-styles">

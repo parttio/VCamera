@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.server.StreamReceiver;
 import com.vaadin.flow.server.StreamVariable;
 import com.vaadin.flow.shared.Registration;
@@ -18,7 +18,7 @@ import elemental.json.JsonValue;
 import elemental.json.impl.JreJsonFactory;
 
 @Tag("vcamera-element")
-@HtmlImport("bower_components/vcamera-element/vcamera-element.html")
+@JsModule("./vcamera-element.js")
 public class VCamera extends Component {
 
     public VCamera(Map<String,Object> previewOptions, Map<String,Object> recordingOptions, DataReceiver receiver) {

@@ -1,11 +1,15 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
-<link rel="import" href="../../bower_components/vaadin-ordered-layout/src/vaadin-vertical-layout.html">
-<link rel="import" href="../../bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
-<link rel="import" href="../../bower_components/vcamera-element/vcamera-element.html">
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+//import {html} from "@polymer/polymer/lib/utils/html-tag";
 
-<dom-module id="vcamera-demo-element">
-	<template>
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
+import '@vaadin/vcamera-element/vcamera-element.js';
+
+//<dom-module id="vcamera-demo-element">
+//	<template>
+static get template() {
+    return html'
 		<vaadin-vertical-layout>
 			<div>
 				<h1>VCamera component demo</h1> 
@@ -22,14 +26,13 @@
 			</vaadin-horizontal-layout>
 			<div id="image"></div>
 			<div id="video"></div>
-		</vaadin-vertical-layout>
-		
-	</template>
-	<script>
-		class  VCameraDemoElement extends Polymer.Element {
+		</vaadin-vertical-layout>';
+}
+//	</template>
+//	<script>
+		class VCameraDemoElement extends PolymerElement {
 			static get is() {return "vcamera-demo-element";}
-			
 		}
 		customElements.define(VCameraDemoElement.is, VCameraDemoElement);
-	</script>
-</dom-module>
+//	</script>
+//</dom-module>

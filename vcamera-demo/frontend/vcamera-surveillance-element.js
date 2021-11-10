@@ -1,11 +1,15 @@
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../vaadin-button/vaadin-button.html">
-<link rel="import" href="../vaadin-ordered-layout/src/vaadin-vertical-layout.html">
-<link rel="import" href="../vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
-<link rel="import" href="../vcamera-element/vcamera-element.html">
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+//import {html} from "@polymer/polymer/lib/utils/html-tag";
 
-<dom-module id="vcamera-surveillance-element">
-	<template>
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
+import '@vaadin/vcamera-element/vcamera-element.js';
+
+//<dom-module id="vcamera-surveillance-element">
+//	<template>
+static get template {
+    return html'
 		<vaadin-vertical-layout>
 			<div>
 			<div><h1>A simple monitor application</h1>
@@ -20,11 +24,11 @@
 				<input value="{{threshold::input}}" type="range" name="Sensitivity" min="0" max="4"></input>
 			</vaadin-horizontal-layout>
 			<vaadin-horizontal-layout theme="spacing"><div>Sharing key: </div><div id="key"></div></vaadin-horizontal-layout>
-		</vaadin-vertical-layout>
-		
-	</template>
-	<script>
-		class  VCameraSurveillanceElement extends Polymer.Element {
+		</vaadin-vertical-layout>';
+}
+//	</template>
+//	<script>
+		class  VCameraSurveillanceElement extends PolymerElement {
 			static get is() {return "vcamera-surveillance-element";}
     		static get properties() {
     			return {
@@ -92,5 +96,5 @@
 		
 		}
 		customElements.define(VCameraSurveillanceElement.is, VCameraSurveillanceElement);
-	</script>
-</dom-module>
+//	</script>
+//</dom-module>

@@ -1,6 +1,6 @@
 
 
-# Demo for the VCamera Vaadin 10 add-on
+# Demo for the VCamera Vaadin 10 (upgrade to Vaadin 14) add-on
 
 
 This is a Vaadin 11 example Java application, used to demonstrate features of the VCamera add-on.

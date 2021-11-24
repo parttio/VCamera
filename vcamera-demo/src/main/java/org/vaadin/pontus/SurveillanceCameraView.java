@@ -7,8 +7,8 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "surveillance", layout = VCameraDemo.class)
-@Tag("vcamera-surveillance-element")
-@JsModule("./camera-surveillance-element.js")
+//@Tag("vcamera-surveillance-element")
+//@JsModule("./camera-surveillance-element.js")
 public class SurveillanceCameraView extends AbstractCameraView
         implements KeyGenerator {
 

@@ -1,0 +1,5 @@
+/vcamera/target/
+/vcamera-demo/target/
+vcamera-demo/node_modules
+vcamera/node_modules
+vcamera/.gradle/

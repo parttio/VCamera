@@ -56,22 +56,33 @@
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-testbench</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.1.0</version>
                 <configuration>
                     <archive>
                         <index>true</index>
                         <manifest>
                             <addClasspath>false</addClasspath>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultImplementationEntries>true
+                            </addDefaultImplementationEntries>
                         </manifest>
                         <manifestEntries>
                             <Vaadin-Package-Version>1</Vaadin-Package-Version>
@@ -79,6 +90,27 @@
                     </archive>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.28.v20200408</version>
+                <configuration>
+                    <scanIntervalSeconds>-1</scanIntervalSeconds>
+                    <!-- Use test scope because the UI/test classes are in
+                        the test package. -->
+                    <useTestScope>true</useTestScope>
+                    <supportedPackagings>
+                        <supportedPackaging>jar</supportedPackaging>
+                    </supportedPackagings>
+                </configuration>
+            </plugin>
+
+            <!--
+             Take care of synchronizing java dependencies and imports in
+             package.json and main.js files.
+             It also creates webpack.config.js if not exists yet.
+             -->
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
@@ -91,42 +123,18 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.15.v20190215</version>
-                <configuration>
-                    <scanIntervalSeconds>-1</scanIntervalSeconds>
-                    <!-- Use test scope because the UI/demo classes are in 
-                        the test package. -->
-                    <useTestScope>true</useTestScope>
-                    <webAppConfig>
-                        <!-- This is only needed to be able to unzip webjars 
-                            directly into src/test/webjar-debug and modify them for testing -->
-                        
-                        <resourceBases>
-                        	<!-- these paths are relative to the 
-                            	project where the profile is triggered -->
-                            <resourceBase>src/test/webjar-debug/META-INF/resources</resourceBase>
-                            <resourceBase>${project.basedir}/src/main/resources/META-INF/resources</resourceBase>
-                            <resourceBase>${project.basedir}/src/test/resources/META-INF/resources</resourceBase>
-                        </resourceBases>
-                    </webAppConfig>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
     <profiles>
-        <profile>
+    <profile>
             <id>directory</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.6</version>
+                        <version>3.1.0</version>
                         <configuration>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
@@ -157,22 +165,9 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>com.vaadin</groupId>
-                        <artifactId>vaadin-maven-plugin</artifactId>
-                        <version>${vaadin.version}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>build-frontend</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.10.4</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -185,6 +180,82 @@
                         <configuration>
                             <quiet>true</quiet>
                             <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.1.2</version>
+                        <configuration>
+                            <!-- Generated file that shouldn't be included in add-ons -->
+                            <excludes>
+                                <exclude>
+                                    META-INF/VAADIN/config/flow-build-info.json
+                                </exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>it</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <configuration>
+                            <scanIntervalSeconds>0</scanIntervalSeconds>
+                            <stopPort>8081</stopPort>
+                            <useTestScope>true</useTestScope>
+                            <supportedPackagings>
+                                <supportedPackaging>jar</supportedPackaging>
+                            </supportedPackagings>
+                            <stopWait>15</stopWait>
+                            <stopKey>${project.artifactId}</stopKey>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start-jetty</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stop-jetty</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Runs the integration tests (*IT) after the server is started -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.22.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <trimStackTrace>false</trimStackTrace>
+                            <enableAssertions>true</enableAssertions>
                         </configuration>
                     </plugin>
                 </plugins>

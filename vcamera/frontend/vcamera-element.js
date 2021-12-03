@@ -1,5 +1,4 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-//import {html} from "@polymer/polymer/lib/utils/html-tag";
 
 class VCameraElement extends PolymerElement {
 
@@ -61,7 +60,7 @@ class VCameraElement extends PolymerElement {
     }
 
     takePicture() {
-        let vid = Polymer.dom(this.root).querySelector("#video");
+        let vid = this.shadowRoot.getElementById("video");
         if (vid == null) {
             return;
         }

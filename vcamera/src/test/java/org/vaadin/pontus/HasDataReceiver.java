@@ -24,6 +24,7 @@ public interface HasDataReceiver extends DataReceiver {
         try {
             latest = File.createTempFile("camera", suffix);
             setLatest(latest);
+            System.out.println("Streaming to temp file " + latest);
             return new FileOutputStream(latest);
         } catch (IOException e) {
             e.printStackTrace();

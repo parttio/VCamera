@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
@@ -16,32 +17,35 @@ import com.vaadin.flow.server.InputStreamFactory;
 import com.vaadin.flow.server.StreamResource;
 
 @Route(value = "", layout = VCameraDemo.class)
-@Tag("vcamera-demo-element")
-@HtmlImport("bower_components/vcamera-demo-element/vcamera-demo-element.js")
 public class VCameraDemoView extends AbstractCameraView {
 
     @Id("snap")
-    Button takePicture;
+    Button takePicture = new Button("Take picture");
 
     @Id("preview")
-    Button preview;
+    Button preview = new Button("Preview");
 
     @Id("start")
-    Button startRecording;
+    Button startRecording = new Button("Start recording");
 
     @Id("stop")
-    Button stopRecording;
+    Button stopRecording = new Button("Stop recording");
 
     @Id("stopcamera")
-    Button stopCamera;
+    Button stopCamera = new Button("Stop camera");
 
     @Id("image")
-    Div imageContainer;
+    Div imageContainer = new Div();
 
     @Id("video")
-    Div videoContainer;
+    Div videoContainer = new Div();
 
     public VCameraDemoView() {
+        
+        add(getCamera());
+        add(new HorizontalLayout(takePicture, preview, startRecording, stopRecording, stopCamera));
+        add(imageContainer);
+        add(videoContainer);
 
         takePicture.addClickListener(e -> {
             getCamera().takePicture();
@@ -65,7 +69,7 @@ public class VCameraDemoView extends AbstractCameraView {
 
         getCamera().showPreview();
         getCamera().addFinishedListener(e -> {
-
+            System.out.println("Received image or video to the server side");
             String mime = e.getMime();
             if (mime.contains("image")) {
                 setImage();
@@ -117,3 +121,4 @@ public class VCameraDemoView extends AbstractCameraView {
     }
 
 }
+

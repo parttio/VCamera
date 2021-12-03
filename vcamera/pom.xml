@@ -10,7 +10,7 @@
     <description>Integration of app-media for Vaadin 14+</description>
 
     <properties>
-        <vaadin.version>14.7.4</vaadin.version>
+        <vaadin.version>22.0.0</vaadin.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -34,6 +34,18 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <scm>
+        <url>https://github.com/parttio/VCamera</url>
+        <connection>scm:git:git://github.com/parttio/VCamera.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:/parttio/VCamera.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/parttio/VCamera/issues</url>
+    </issueManagement>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -179,19 +191,6 @@
                         </configuration>
                     </plugin>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.1.2</version>
-                        <configuration>
-                            <!-- Generated file that shouldn't be included in add-ons -->
-                            <excludes>
-                                <exclude>
-                                    META-INF/VAADIN/config/flow-build-info.json
-                                </exclude>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
                         <groupId>biz.aQute.bnd</groupId>
                         <artifactId>bnd-maven-plugin</artifactId>
                         <version>6.1.0</version>
@@ -214,6 +213,22 @@ Implementation-Version: ${project.version}
              -sources: true
              ]]>
                             </bnd>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <configuration>
+                            <archive>
+                                <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                            </archive>
+                            <!-- Generated file that shouldn't be included in add-ons -->
+                            <excludes>
+                                <exclude>
+                                    META-INF/VAADIN/config/flow-build-info.json
+                                </exclude>
+                            </excludes>
                         </configuration>
                     </plugin>
 

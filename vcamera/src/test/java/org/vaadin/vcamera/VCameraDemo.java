@@ -9,7 +9,7 @@ import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
 
-@Push
+
 public class VCameraDemo extends Composite<HorizontalLayout>
         implements RouterLayout {
 

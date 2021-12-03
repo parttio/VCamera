@@ -3,3 +3,5 @@
 vcamera-demo/node_modules
 vcamera/node_modules
 vcamera/.gradle/
+vcamera/node_modules/
+vcamera/vcamera.iml

@@ -5,7 +5,7 @@
 
     <groupId>org.vaadin.pontus</groupId>
     <artifactId>vcamera</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <name>Vcamera</name>
     <description>Integration of app-media for Vaadin 14+</description>
 
@@ -16,10 +16,17 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Doing release by manually uploading to vaadin.com/directory -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <organization>
         <name>Pontus Boström</name>
     </organization>
+    <developers>
+        <developer><name>Pontus Boström</name></developer>
+        <developer><name>Paul Fraser</name></developer>
+        <developer><name>Matti Tahvonen</name></developer>
+    </developers>
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -73,25 +80,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <index>true</index>
-                        <manifest>
-                            <addClasspath>false</addClasspath>
-                            <addDefaultImplementationEntries>true
-                            </addDefaultImplementationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Vaadin-Package-Version>1</Vaadin-Package-Version>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.4.28.v20200408</version>
@@ -122,6 +110,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.0-M4</version>
+                <configuration>
+                    <releaseProfiles>directory</releaseProfiles>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -195,6 +191,32 @@
                             </excludes>
                         </configuration>
                     </plugin>
+                    <plugin>
+                        <groupId>biz.aQute.bnd</groupId>
+                        <artifactId>bnd-maven-plugin</artifactId>
+                        <version>6.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>jar</id>
+                                <goals>
+                                    <goal>bnd-process</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <bnd><![CDATA[
+Vaadin-Package-Version: 1
+Vaadin-Addon: ${project.build.finalName}.${project.packaging}
+Implementation-Vendor: ${organization.name}
+Implementation-Title: ${project.name}
+Implementation-Version: ${project.version}
+             -exportcontents: org.vaadin.vcamera
+             -sources: true
+             ]]>
+                            </bnd>
+                        </configuration>
+                    </plugin>
+
                 </plugins>
             </build>
         </profile>

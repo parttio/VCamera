@@ -1,4 +1,4 @@
-package org.vaadin.pontus;
+package org.vaadin.vcamera;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;

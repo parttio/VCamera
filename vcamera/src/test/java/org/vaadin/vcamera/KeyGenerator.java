@@ -1,4 +1,4 @@
-package org.vaadin.pontus;
+package org.vaadin.vcamera;
 
 import java.util.Random;
 

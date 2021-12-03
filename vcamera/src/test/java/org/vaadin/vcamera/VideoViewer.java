@@ -1,9 +1,9 @@
-package org.vaadin.pontus;
+package org.vaadin.vcamera;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import org.vaadin.pontus.FileService.Registration;
+import org.vaadin.vcamera.FileService.Registration;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;

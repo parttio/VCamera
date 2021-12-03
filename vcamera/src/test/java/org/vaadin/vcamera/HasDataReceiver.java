@@ -1,4 +1,4 @@
-package org.vaadin.pontus;
+package org.vaadin.vcamera;
 
 import java.io.File;
 import java.io.FileOutputStream;

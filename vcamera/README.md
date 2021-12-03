@@ -15,4 +15,10 @@ mvn jetty:run
 
 This deploys demo at http://localhost:8080
 
+## Cutting a release
 
+Use release plugin + push out the produced zip file from target/checkout/target manually to the Vaadin Directory using Team Parttio credentials
+
+```
+mvn release:prepare mvn release:perform -DskipTests=true
+```

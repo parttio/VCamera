@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.vaadin.flow.component.polymertemplate.Id;
+import org.vaadin.vcamera.VCamera;
 
 public abstract class AbstractCameraView extends Div
         implements HasDataReceiver {

@@ -78,9 +78,9 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>org.vaadin.pontus</groupId>
+            <groupId>org.vaadin.addons</groupId>
             <artifactId>vcamera</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>2.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>

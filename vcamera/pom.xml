@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.vaadin.pontus</groupId>
+    <groupId>org.vaadin.addons</groupId>
     <artifactId>vcamera</artifactId>
     <version>2.0.1-SNAPSHOT</version>
     <name>Vcamera</name>
@@ -19,7 +19,7 @@
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <organization>
-        <name>Pontus Boström</name>
+        <name>Team Parttio</name>
     </organization>
     <developers>
         <developer><name>Pontus Boström</name></developer>

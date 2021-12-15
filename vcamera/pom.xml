@@ -234,9 +234,12 @@ Implementation-Version: ${project.version}
                             </excludes>
                         </configuration>
                     </plugin>
-
                 </plugins>
             </build>
+            <properties>
+                <!-- Doing release by manually uploading to vaadin.com/directory -->
+                <maven.deploy.skip>true</maven.deploy.skip>
+            </properties>
         </profile>
         <profile>
             <id>it</id>
@@ -297,14 +300,6 @@ Implementation-Version: ${project.version}
                             <trimStackTrace>false</trimStackTrace>
                             <enableAssertions>true</enableAssertions>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-deploy-plugin</artifactId>
-                      <version>3.0.0-M1</version>
-                      <configuration>
-                          <skip>true</skip>
-                      </configuration>
                     </plugin>
                 </plugins>
             </build>

@@ -15,16 +15,20 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- Doing release by manually uploading to vaadin.com/directory -->
-        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <organization>
         <name>Team Parttio</name>
     </organization>
     <developers>
-        <developer><name>Pontus Boström</name></developer>
-        <developer><name>Paul Fraser</name></developer>
-        <developer><name>Matti Tahvonen</name></developer>
+        <developer>
+            <name>Pontus Boström</name>
+        </developer>
+        <developer>
+            <name>Paul Fraser</name>
+        </developer>
+        <developer>
+            <name>Matti Tahvonen</name>
+        </developer>
     </developers>
     <licenses>
         <license>
@@ -97,7 +101,7 @@
                 <configuration>
                     <scanIntervalSeconds>-1</scanIntervalSeconds>
                     <!-- Use test scope because the UI/test classes are in
-                        the test package. -->
+                    the test package. -->
                     <useTestScope>true</useTestScope>
                     <supportedPackagings>
                         <supportedPackaging>jar</supportedPackaging>
@@ -106,10 +110,10 @@
             </plugin>
 
             <!--
-             Take care of synchronizing java dependencies and imports in
-             package.json and main.js files.
-             It also creates webpack.config.js if not exists yet.
-             -->
+            Take care of synchronizing java dependencies and imports in
+            package.json and main.js files.
+            It also creates webpack.config.js if not exists yet.
+            -->
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
@@ -134,7 +138,7 @@
     </build>
 
     <profiles>
-    <profile>
+        <profile>
             <id>directory</id>
             <build>
                 <plugins>
@@ -296,6 +300,11 @@ Implementation-Version: ${project.version}
                     </plugin>
                 </plugins>
             </build>
+            <properties>
+                <!-- Doing release by manually uploading to vaadin.com/directory -->
+                <maven.deploy.skip>true</maven.deploy.skip>
+
+            </properties>
         </profile>
     </profiles>
 </project>

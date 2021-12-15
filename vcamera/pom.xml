@@ -4,7 +4,7 @@
 
     <groupId>org.vaadin.addons.parttio</groupId>
     <artifactId>vcamera</artifactId>
-    <version>2.0.6-SNAPSHOT</version>
+    <version>2.0.5-SNAPSHOT</version>
     <name>Vcamera</name>
     <description>Integration of app-media for Vaadin 14+</description>
 
@@ -237,10 +237,6 @@ Implementation-Version: ${project.version}
 
                 </plugins>
             </build>
-            <properties>
-                <!-- Doing release by manually uploading to vaadin.com/directory -->
-                 <maven.deploy.skip>true</maven.deploy.skip>
-            </properties>
         </profile>
         <profile>
             <id>it</id>

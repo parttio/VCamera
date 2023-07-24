@@ -5,12 +5,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.vaadin.flow.component.polymertemplate.Id;
 
 public abstract class AbstractCameraView extends Div
         implements HasDataReceiver {
 
-    @Id("camera")
     private VCamera camera = new VCamera();
 
     File latest;

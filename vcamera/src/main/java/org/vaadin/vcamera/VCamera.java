@@ -66,31 +66,31 @@ public class VCamera extends Component {
     }
 
     public void startRecording() {
-        getElement().callFunction("startRecording");
+        getElement().executeJs("this.startRecording()");
     }
 
     public void stopRecording() {
-        getElement().callFunction("stopRecording");
+        getElement().executeJs("this.stopRecording()");
     }
 
     public void stopCamera() {
-        getElement().callFunction("stopCamera");
+        getElement().executeJs("this.stopCamera()");
     }
 
     public void takePicture() {
-        getElement().callFunction("takePicture");
+        getElement().executeJs("this.takePicture()");
     }
 
     public void showPreview() {
-        getElement().callFunction("showPreview");
+        getElement().executeJs("this.showPreview()");
     }
 
     public void showPicture() {
-        getElement().callFunction("showPicture");
+        getElement().executeJs("this.showPicture()");
     }
 
     public void showRecording() {
-        getElement().callFunction("showRecording");
+        getElement().executeJs("this.showRecording()");
     }
 
     public Registration addFinishedListener(ComponentEventListener<FinishedEvent> listener) {

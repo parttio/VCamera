@@ -1,41 +1,33 @@
 package org.vaadin.vcamera;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.InputStreamFactory;
 import com.vaadin.flow.server.StreamResource;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 @Route(value = "", layout = VCameraDemo.class)
 public class VCameraDemoView extends AbstractCameraView {
 
-    @Id("snap")
     Button takePicture = new Button("Take picture");
 
-    @Id("preview")
     Button preview = new Button("Preview");
 
-    @Id("start")
     Button startRecording = new Button("Start recording");
 
-    @Id("stop")
     Button stopRecording = new Button("Stop recording");
 
-    @Id("stopcamera")
     Button stopCamera = new Button("Stop camera");
 
-    @Id("image")
     Div imageContainer = new Div();
 
-    @Id("video")
     Div videoContainer = new Div();
 
     public VCameraDemoView() {

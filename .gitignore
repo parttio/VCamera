@@ -5,3 +5,6 @@ vcamera/node_modules
 vcamera/.gradle/
 vcamera/node_modules/
 vcamera/vcamera.iml
+vcamera-demo/frontend/generated
+vcamera/frontend/generated
+vcamera/src/main/dev-bundle

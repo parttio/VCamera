@@ -4,6 +4,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.InputStreamFactory;
 import com.vaadin.flow.server.StreamResource;
@@ -14,54 +15,92 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
-@Route(value = "", layout = VCameraDemo.class)
-public class VCameraDemoView extends AbstractCameraView {
+@Route(value = "")
+public class VCameraDemoView extends VerticalLayout {
+    private VCamera camera;
+
+    File latest;
 
     Button takePicture = new Button("Take picture");
 
-    Button preview = new Button("Preview");
+    Button onoff = new Button("Close camera");
 
     Button startRecording = new Button("Start recording");
 
     Button stopRecording = new Button("Stop recording");
-
-    Button stopCamera = new Button("Stop camera");
 
     Div imageContainer = new Div();
 
     Div videoContainer = new Div();
 
     public VCameraDemoView() {
+
+        camera = new VCamera();
+        camera.setReceiver(new DataReceiver() {
+            @Override
+            public OutputStream getOutputStream(String mimeType) {
+                String suffix;
+                if (mimeType.contains("jpeg")) {
+                    suffix = ".jpeg";
+                } else if (mimeType.contains("matroska")) {
+                    suffix = ".mkv";
+                } else {
+                    suffix = ".file";
+                }
+                if (latest != null) {
+                    latest.delete();
+                }
+                try {
+                    latest = File.createTempFile("camera", suffix);
+                    System.out.println("Streaming to temp file " + latest);
+                    return new FileOutputStream(latest);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        });
         
-        add(getCamera());
-        add(new HorizontalLayout(takePicture, preview, startRecording, stopRecording, stopCamera));
+        add(camera);
+        add(new HorizontalLayout(takePicture, onoff, startRecording, stopRecording));
         add(imageContainer);
         add(videoContainer);
 
         takePicture.addClickListener(e -> {
-            getCamera().takePicture();
+            camera.takePicture();
         });
 
-        preview.addClickListener(e -> {
-            getCamera().openCamera();
+        onoff.addClickListener(e -> {
+            if(camera.isCameraOpen()) {
+                camera.closeCamera();
+                onoff.setText("Open camera");
+                takePicture.setEnabled(false);
+                startRecording.setEnabled(false);
+            } else {
+                camera.openCamera();
+                onoff.setText("Close camera");
+                takePicture.setEnabled(true);
+                startRecording.setEnabled(true);
+            }
         });
 
         startRecording.addClickListener(e -> {
-            getCamera().startRecording();
+            camera.startRecording();
+            stopRecording.setEnabled(true);
         });
 
+        stopRecording.setEnabled(false);
         stopRecording.addClickListener(e -> {
-            getCamera().stopRecording();
+            camera.stopRecording();
+            stopRecording.setEnabled(false);
         });
 
-        stopCamera.addClickListener(e -> {
-            getCamera().closeCamera();
-        });
-
-        getCamera().openCamera();
-        getCamera().addFinishedListener(e -> {
+        camera.openCamera();
+        camera.addFinishedListener(e -> {
             System.out.println("Received image or video to the server side");
             String mime = e.getMime();
             if (mime.contains("image")) {
@@ -80,7 +119,7 @@ public class VCameraDemoView extends AbstractCameraView {
 
     private void setImage() {
         clearImageAndVideo();
-        File file = getLatest();
+        File file = latest;
         if (file != null) {
             InputStreamFactory f = () -> {
                 try {
@@ -97,7 +136,7 @@ public class VCameraDemoView extends AbstractCameraView {
 
     private void setVideo(String mime) {
         clearImageAndVideo();
-        File file = getLatest();
+        File file = latest;
         if (file != null) {
             VideoComponent videoComponent = new VideoComponent();
             InputStreamFactory f = () -> {

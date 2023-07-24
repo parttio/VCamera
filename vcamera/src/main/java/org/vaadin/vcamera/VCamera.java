@@ -16,6 +16,9 @@ import com.vaadin.flow.shared.Registration;
 @Tag("video")
 public class VCamera extends Component {
 
+    private boolean cameraOn;
+    private boolean recording;
+
     public VCamera() {
         getElement().setProperty("volume", 0);
     }
@@ -30,6 +33,10 @@ public class VCamera extends Component {
     }
 
     public void startRecording() {
+        if(!cameraOn) {
+            throw new IllegalStateException("Camera is not on");
+        }
+        recording = true;
         getElement().executeJs("""
                 let target = this.getAttribute("target");;
                 this.recorder = new MediaRecorder(this.stream);
@@ -46,10 +53,15 @@ public class VCamera extends Component {
     }
 
     public void stopRecording() {
+        if(!recording) {
+            throw new IllegalStateException("Not recording");
+        }
         getElement().executeJs("this.recorder.stop()");
+        recording = false;
     }
 
     public void closeCamera() {
+        cameraOn = false;
         getElement().executeJs("""
                 if(this.stream!=null) {
                     this.stream.getTracks().forEach( t=> {
@@ -61,6 +73,9 @@ public class VCamera extends Component {
     }
 
     public void takePicture() {
+        if(!cameraOn) {
+            throw new IllegalStateException("Camera is not on");
+        }
         getElement().executeJs("""
                 let canvas = document.createElement("canvas");
                 let context = canvas.getContext('2d');
@@ -84,6 +99,7 @@ public class VCamera extends Component {
     }
 
     public void openCamera(String optionsJson) {
+        cameraOn = true;
         getElement().executeJs("""
                 if(this.stream == null) {
                     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -95,6 +111,10 @@ public class VCamera extends Component {
                     }
                 }
                         """.formatted(optionsJson));
+    }
+
+    public boolean isCameraOpen() {
+        return cameraOn;
     }
 
     public Registration addFinishedListener(ComponentEventListener<FinishedEvent> listener) {

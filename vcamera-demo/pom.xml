@@ -5,18 +5,17 @@
     <groupId>org.vaadin.pontus</groupId>
     <artifactId>vcamera-demo</artifactId>
     <name>vcamera-demo</name>
-    <version>2.0</version>
+    <version>3.0</version>
     <packaging>war</packaging>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
-        <vaadin.version>14.8.0</vaadin.version>
-        <jetty.version>9.4.15.v20190215</jetty.version>
+        <vaadin.version>24.1.4</vaadin.version>
     </properties>
 
     <pluginRepositories>
@@ -66,9 +65,9 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -80,7 +79,7 @@
         <dependency>
             <groupId>org.vaadin.addons.parttio</groupId>
             <artifactId>vcamera</artifactId>
-            <version>2.0.6</version>
+            <version>3.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -93,7 +92,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.version}</version>
+                <version>11.0.15</version>
             </plugin>
         </plugins>
     </build>

@@ -1,18 +1,15 @@
 package org.vaadin.pontus;
 
-import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.html.Div;
+import org.vaadin.vcamera.VCamera;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.vaadin.flow.component.polymertemplate.Id;
-import org.vaadin.vcamera.VCamera;
-
 public abstract class AbstractCameraView extends Div
         implements HasDataReceiver {
 
-    @Id("camera")
     private VCamera camera = new VCamera();
 
     File latest;

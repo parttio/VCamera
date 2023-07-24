@@ -9,6 +9,8 @@ public class VideoComponent extends Component {
 
     public void setSrc(StreamResource resource) {
         getElement().setAttribute("src", resource);
-        getElement().setAttribute("controls", "constrols");
+        getElement().setAttribute("autoplay", "true");
+        getElement().setAttribute("loop", "true");
+        getElement().setAttribute("controls", "true");
     }
 }

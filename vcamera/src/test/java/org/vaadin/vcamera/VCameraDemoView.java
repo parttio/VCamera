@@ -141,12 +141,19 @@ public class VCameraDemoView extends VerticalLayout {
             VideoComponent videoComponent = new VideoComponent();
             InputStreamFactory f = () -> {
                 try {
+                    // Safari requires range requests for video, like Range: bytes=0-1
+                    // Hack trivial Range request support for StreamResource
+                    // to make the test work in Safari as well
+                    
+                    // Note, in an actual application, you'll want to use a
+                    // separate servlet, Spring MVC config, custom server 
+                    // configuration or front-proxy to serve your video files!
+                    // see demo project for a Spring Boot example
                     VaadinRequest vr = VaadinRequest.getCurrent();
                     VaadinResponse vresp = VaadinResponse.getCurrent();
                     String range = vr.getHeader("Range");
                     if(range != null) {
                         System.out.println("Range: " + range);
-                        // Safari uses range requests for video, like bytes=0-1
                         String[] split = range.substring("bytes=".length()).split("-");
                         if(split.length == 2) {
                             int start = Integer.parseInt(split[0]);

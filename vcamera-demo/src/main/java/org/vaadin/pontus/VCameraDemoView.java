@@ -8,18 +8,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.InputStreamFactory;
 import com.vaadin.flow.server.StreamResource;
-import com.vaadin.flow.server.VaadinRequest;
-import com.vaadin.flow.server.VaadinResponse;
-import org.vaadin.vcamera.DataReceiver;
 import org.vaadin.vcamera.VCamera;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 @Route(value = "")
 public class VCameraDemoView extends VerticalLayout {
@@ -42,28 +37,24 @@ public class VCameraDemoView extends VerticalLayout {
     public VCameraDemoView() {
 
         camera = new VCamera();
-        camera.setReceiver(new DataReceiver() {
-            @Override
-            public OutputStream getOutputStream(String mimeType) {
-                String suffix;
-                if (mimeType.contains("jpeg")) {
-                    suffix = ".jpeg";
-                } else if (mimeType.contains("matroska")) {
-                    suffix = ".mkv";
-                } else {
-                    suffix = ".file";
-                }
-                if (latest != null) {
-                    latest.delete();
-                }
-                try {
-                    latest = File.createTempFile("camera", suffix);
-                    System.out.println("Streaming to temp file " + latest);
-                    return new FileOutputStream(latest);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
+        camera.setReceiver((String mimeType) -> {
+            String suffix;
+            if (mimeType.contains("jpeg")) {
+                suffix = ".jpeg";
+            } else if (mimeType.contains("matroska")) {
+                suffix = ".mkv";
+            } else {
+                suffix = ".mp4";
+            }
+            if (latest != null) {
+                latest.delete();
+            }
+            try {
+                latest = File.createTempFile("camera", suffix, Application.videos.toFile());
+                System.out.println("Streaming to temp file " + latest);
+                return new FileOutputStream(latest);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
         
@@ -141,40 +132,9 @@ public class VCameraDemoView extends VerticalLayout {
         File file = latest;
         if (file != null) {
             VideoComponent videoComponent = new VideoComponent();
-            InputStreamFactory f = () -> {
-                try {
-                    VaadinRequest vr = VaadinRequest.getCurrent();
-                    VaadinResponse vresp = VaadinResponse.getCurrent();
-                    String range = vr.getHeader("Range");
-                    if(range != null) {
-                        System.out.println("Range: " + range);
-                        // Safari uses range requests for video, like bytes=0-1
-                        String[] split = range.substring("bytes=".length()).split("-");
-                        if(split.length == 2) {
-                            int start = Integer.parseInt(split[0]);
-                            int end = Integer.parseInt(split[1]);
-                            int length = end - start + 1;
-                            long fileLength = file.length();
-                            FileInputStream fileInputStream = new FileInputStream(file);
-                            fileInputStream.skip(start);
-                            byte[] bytes = new byte[length];
-                            fileInputStream.read(bytes, 0, length);
-                            vresp.setStatus(206);
-                            vresp.setHeader("Content-Range", "bytes " + start + "-" + end + "/" + fileLength);
-                            vresp.setHeader("Content-Length", length + "");
-                            return new ByteArrayInputStream(bytes);
-                        }
-                    }
-                    return new FileInputStream(file);
-                } catch (FileNotFoundException ex) {
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                return null;
-            };
-            StreamResource streamResource = new StreamResource("video", f);
-            streamResource.setContentType(mime);
-            videoComponent.setSrc(streamResource);
+            // Spring MVC serves /videos/** from the videos tmp directory
+            // See Application.java how it is configured
+            videoComponent.setSrc("/videos/" + file.getName());
             imageContainer.add(videoComponent);
         }
     }

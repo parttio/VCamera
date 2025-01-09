@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.page.PendingJavaScriptResult;
 import com.vaadin.flow.server.StreamReceiver;
@@ -23,7 +24,7 @@ import org.vaadin.vcamera.mediadevices.DevicesListedEvent;
  * <p>During streaming, users can record still or video clips of the stream, that browser send to the server. The data can be accessed using the DataReceiver interface, see {@link #setReceiver(DataReceiver)}.</p>
  */
 @Tag("video")
-public class VCamera extends Component {
+public class VCamera extends Component implements HasSize {
 
     private boolean cameraOn;
     private boolean recording;

@@ -27,6 +27,7 @@ public class VCamera extends Component {
 
     private boolean cameraOn;
     private boolean recording;
+    private boolean flashOn;
 
     private static final Logger LOG = LoggerFactory.getLogger(VCamera.class);
 
@@ -122,6 +123,27 @@ public class VCamera extends Component {
                     }
                 }
                 """.formatted(optionsJson));
+    }
+
+    public boolean isFlashOn() {
+        return flashOn;
+    }
+
+    public void toggleFlashlight() {
+        flashOn = !flashOn;
+        getElement().executeJs("""
+                if(this.stream != null) {
+                    const track = this.stream.getVideoTracks()[0];
+            
+                    //Create image capture object and get camera capabilities
+                    const imageCapture = new ImageCapture(track)
+                    const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
+                      track.applyConstraints({
+                        advanced: [{torch: %s}]
+                      });
+                    });
+                }
+            """.formatted(flashOn));
     }
 
     /**
